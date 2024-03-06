@@ -8,9 +8,7 @@ const fs = require('file-system')
 const {chromium} = require('playwright')
 const delay = require('delay')
 const color = require('colors-cli/safe')
-//nodemon -x 'node index.js || copy /b index.js +,,'
 //nodemon -x 'node creedroomz.js || copy /b creedroomz.js +,,'
-//nodemon -x 'node main.js || copy /b main.js +,,'
 const url = "https://www.seubet.com/";
 const { Telegraf } = require('telegraf')
 const { message } = require('telegraf/filters')
@@ -253,6 +251,7 @@ bot.on(message("text"), async(ctx) =>{
     },6000)
 
     setInterval(async () => {
+        if(roletaAndamento === false && lobbyCrash === true){
             if(roleta1[0] === num1BACKUP && roleta1[1] === num2BACKUP && roleta1[2] === num3BACKUP){
                 //console.log("ROLETA TRAVADA")
                 await incrementarLOG("ROLETA TRAVADA")
@@ -272,6 +271,7 @@ bot.on(message("text"), async(ctx) =>{
                 num3BACKUP = roleta1[2]
                 //console.log(roleta1[0],num1BACKUP,roleta1[1],num2BACKUP,roleta1[2],num3BACKUP,apostando)
             }
+        }
     },600000)
 
     await delay(6000) 
@@ -1333,7 +1333,7 @@ bot.on(message("text"), async(ctx) =>{
                     return Promise.resolve(false)
                 }
             break;
-            case 20:
+            case 21:
                 contcoluna1 = 0
                 contcoluna2 = 0
                 contcoluna3 = 0
@@ -1413,13 +1413,47 @@ bot.on(message("text"), async(ctx) =>{
                 }
 
             break;
+            case 20:
+                contcoluna1 = 0
+                contcoluna2 = 0
+                contcoluna3 = 0
+
+                let numero_ = [numero1,numero2,numero3,numero4,numero5,numero6,numero7,numero8,numero9]
+                for (let index = 0; index < 6; index++) {
+
+                    if(coluna1.includes(numero_[index]) === true){
+                        contcoluna1++
+
+                    }
+                    if(coluna2.includes(numero_[index]) === true){
+                        contcoluna2++
+
+                    }
+                    if(coluna3.includes(numero_[index]) === true){
+                        contcoluna3++
+
+                    }
+                }
+                if(contcoluna1 === 5){
+                    console.log("coluna 1"+contcoluna1)
+                    return Promise.resolve(1)
+                }
+                if(contcoluna2 === 5){
+                    console.log("coluna 2"+contcoluna2)
+                    return Promise.resolve(2)
+                }
+                if(contcoluna3 === 5){
+                    console.log("coluna 3"+contcoluna3)
+                    return Promise.resolve(3)
+                }
+            break;
         }
     }
     async function analisandoLobby(){
 
             await delay(7000)
             for (let index = 1; index < 16; index++) {
-                if( index === 1 || index === 6 || index === 8 || index === 2 || index === 9 || index === 10 || index === 12 || index === 14){
+                if( index === 1 || index === 2 || index === 6 || index === 8 || index === 9 || index === 10 || index === 12 || index === 14){
                     let offline = await roletaOFF(index)
                     if(offline == true){
                         if(process.env.REPETION_COLUMN === "true"){
@@ -1431,7 +1465,7 @@ bot.on(message("text"), async(ctx) =>{
                                         roleta6[21] === true
                                     }
                                 break;
-                                case 4:
+                                case 6:
                                     if(roleta6[21] === true){
                                         roleta6[21] === false
                                         roleta8[21] === true
@@ -1444,39 +1478,39 @@ bot.on(message("text"), async(ctx) =>{
                                         roleta2[21] === true
                                     }
                                 break;
-                                case 7:
+                                case 2:
                                     if(roleta2[21] === true){
                                         roleta2[21] === false
                                         roleta55[21] === true  
                                     }
                                     
                                 break;
-                                case 9:
+                                case 55:
                                     if(roleta55[21] === true){
                                         roleta55[21] === false
                                         roleta9[21] === true 
                                     }
                                     
                                 break;
-                                case 10:
+                                case 9:
                                     if(roleta9[21] === true){
                                         roleta9[21] === false
                                         roleta10[21] === true
                                     }
                                 break;
-                                case 11:
+                                case 10:
                                     if(roleta10[21] === true){
                                         roleta10[21] === false
                                         roleta12[21] === true 
                                     }
                                 break;
-                                case 13:
+                                case 12:
                                     if(roleta12[21] === true){
                                         roleta12[21] === false
                                         roleta14[21] === true
                                     }
                                 break;
-                                case 15:
+                                case 14:
                                     if(roleta14[21] === true){
                                         roleta14[21] === false
                                         roleta1[21] === true
@@ -1520,7 +1554,6 @@ bot.on(message("text"), async(ctx) =>{
                             roleta14[21] = true
                         }
                         try {
-                            
                             var nameRoleta = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-info > div.lobby-table-name > span').textContent({timeout:500});
                             var numero1 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(1) > span').textContent({timeout:500});
                             var numero2 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(2) > span').textContent({timeout:500});
@@ -3068,6 +3101,12 @@ bot.on(message("text"), async(ctx) =>{
                 }
                 await delay(8000)
                 await incrementarLOG("INDEX: "+index+"- NOME ROLETA: "+nameR+" - MODE: "+mode)
+                try {
+                    NEWnum1 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.board-wrapper-layout > div.board-wrapper-right > div > div.mini-statistics > div:nth-child(1) > span').textContent({timeout:500});
+                } catch (error) {
+                    
+                }
+                
                 console.log("INDEX: "+index+"- NOME ROLETA: "+nameR+" - MODE: "+mode)
             
             //COLUNAS----------------------------------------
@@ -3104,7 +3143,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna1.includes(NEWnum1) === false){
+                                                if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                         columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
@@ -3143,7 +3182,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna2.includes(NEWnum1) === false  && apostando === false){
+                                                if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                         columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
@@ -3181,7 +3220,7 @@ bot.on(message("text"), async(ctx) =>{
                                             num3 = NEWnum3
                                             num4 = NEWnum4
                                         }else{
-                                            if(coluna3.includes(NEWnum1) === false  && apostando === false){
+                                            if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
@@ -3602,7 +3641,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna1.includes(NEWnum1) === false){
+                                                if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
@@ -3641,7 +3680,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna2.includes(NEWnum1) === false  && apostando === false){
+                                                if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
@@ -3679,7 +3718,7 @@ bot.on(message("text"), async(ctx) =>{
                                             num3 = NEWnum3
                                             num4 = NEWnum4
                                         }else{
-                                            if(coluna3.includes(NEWnum1) === false  && apostando === false){
+                                            if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
@@ -4101,7 +4140,7 @@ bot.on(message("text"), async(ctx) =>{
                                                         num3 = NEWnum3
                                                         num4 = NEWnum4
                                                     }else{
-                                                        if(coluna1.includes(NEWnum1) === false){
+                                                        if(coluna1.includes(NEWnum1) === true){
                                                             if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                                 console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
@@ -4140,7 +4179,7 @@ bot.on(message("text"), async(ctx) =>{
                                                         num3 = NEWnum3
                                                         num4 = NEWnum4
                                                     }else{
-                                                        if(coluna2.includes(NEWnum1) === false  && apostando === false){
+                                                        if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                             if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                                 console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
@@ -4178,7 +4217,7 @@ bot.on(message("text"), async(ctx) =>{
                                                     num3 = NEWnum3
                                                     num4 = NEWnum4
                                                 }else{
-                                                    if(coluna3.includes(NEWnum1) === false  && apostando === false){
+                                                    if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                         if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                             console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
@@ -4608,7 +4647,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna1.includes(NEWnum1) === false){
+                                                if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
@@ -4647,7 +4686,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna2.includes(NEWnum1) === false  && apostando === false){
+                                                if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
@@ -4685,7 +4724,7 @@ bot.on(message("text"), async(ctx) =>{
                                             num3 = NEWnum3
                                             num4 = NEWnum4
                                         }else{
-                                            if(coluna3.includes(NEWnum1) === false  && apostando === false){
+                                            if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
@@ -5101,7 +5140,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna1.includes(NEWnum1) === false){
+                                                if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
@@ -5140,7 +5179,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna2.includes(NEWnum1) === false  && apostando === false){
+                                                if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
@@ -5178,7 +5217,7 @@ bot.on(message("text"), async(ctx) =>{
                                             num3 = NEWnum3
                                             num4 = NEWnum4
                                         }else{
-                                            if(coluna3.includes(NEWnum1) === false  && apostando === false){
+                                            if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
@@ -5597,7 +5636,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna1.includes(NEWnum1) === false){
+                                                if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
@@ -5636,7 +5675,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna2.includes(NEWnum1) === false  && apostando === false){
+                                                if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
@@ -5674,7 +5713,7 @@ bot.on(message("text"), async(ctx) =>{
                                             num3 = NEWnum3
                                             num4 = NEWnum4
                                         }else{
-                                            if(coluna3.includes(NEWnum1) === false  && apostando === false){
+                                            if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
@@ -6096,7 +6135,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna1.includes(NEWnum1) === false){
+                                                if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
@@ -6135,7 +6174,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna2.includes(NEWnum1) === false  && apostando === false){
+                                                if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
@@ -6173,7 +6212,7 @@ bot.on(message("text"), async(ctx) =>{
                                             num3 = NEWnum3
                                             num4 = NEWnum4
                                         }else{
-                                            if(coluna3.includes(NEWnum1) === false  && apostando === false){
+                                            if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
@@ -6598,7 +6637,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna1.includes(NEWnum1) === false){
+                                                if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
@@ -6637,7 +6676,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna2.includes(NEWnum1) === false  && apostando === false){
+                                                if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
@@ -6675,7 +6714,7 @@ bot.on(message("text"), async(ctx) =>{
                                             num3 = NEWnum3
                                             num4 = NEWnum4
                                         }else{
-                                            if(coluna3.includes(NEWnum1) === false  && apostando === false){
+                                            if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
@@ -7103,7 +7142,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna1.includes(NEWnum1) === false){
+                                                if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
@@ -7142,7 +7181,7 @@ bot.on(message("text"), async(ctx) =>{
                                                 num3 = NEWnum3
                                                 num4 = NEWnum4
                                             }else{
-                                                if(coluna2.includes(NEWnum1) === false  && apostando === false){
+                                                if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
@@ -7180,7 +7219,7 @@ bot.on(message("text"), async(ctx) =>{
                                             num3 = NEWnum3
                                             num4 = NEWnum4
                                         }else{
-                                            if(coluna3.includes(NEWnum1) === false  && apostando === false){
+                                            if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
                                                     columnGALEHORA++
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
