@@ -76,14 +76,14 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
 
 //                      0       1     2     3       4       5       6     7  8     9    10   11    12  13 14   15   16  17  18  19  20  21  22  23  24 25
     global.roleta1 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,true,true,false,1,true,true,false,1,  0,  0,  0,true, 0, 0,  0, 0]
-    global.roleta6 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0,  0,  0,false,0, 0,  0, 0]
-    global.roleta8 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0,  0,  0,false,0, 0,  0, 0]
-    global.roleta2 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0,  0,  0,false,0, 0,  0, 0]
-    global.roleta55 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0,  0,  0,false,0, 0,  0, 0]
-    global.roleta9 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0, 0,  0,false,0, 0,  0, 0]
-    global.roleta10 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0, 0,  0,false,0, 0,  0, 0]
-    global.roleta12 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0, 0,  0,false,0, 0,  0, 0]
-    global.roleta14 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0, 0,  0,false,0, 0,  0, 0]
+    global.roleta6 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0,  0,  0,true,0, 0,  0, 0]
+    global.roleta8 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0,  0,  0,true,0, 0,  0, 0]
+    global.roleta2 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0,  0,  0,true,0, 0,  0, 0]
+    global.roleta55 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0,  0,  0,true,0, 0,  0, 0]
+    global.roleta9 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0, 0,  0,true,0, 0,  0, 0]
+    global.roleta10 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0, 0,  0,true,0, 0,  0, 0]
+    global.roleta12 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0, 0,  0,true,0, 0,  0, 0]
+    global.roleta14 = ["num1","num2","num3","num4",column1,column2,column3,1,true,false,false,true,false,1,false,true,false,1,0, 0,  0,true,0, 0,  0, 0]
 
     global.contcoluna1 = 0
     global.contcoluna2 = 0
@@ -102,17 +102,15 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
     global.browserAtivo = false
     global.chatID
     global.ultimaMSN = 0
-    
     global.stopWINNER = false
-
-const users = ["bauerthalison"]
-
-
-bot.on(message("text"), async(ctx) =>{
+    global.addjogadas = false
+    const users = ["bauerthalison"]
+    bot.on(message("text"), async(ctx) =>{
     await criarArquivo()
     const caminhoArquivo = arquivo
     await atualizaDerrotas()
     await atualizaVitorias()
+
     if(ctx.message.text === "/iniciar"){
         if(users.includes(ctx.message.from.username)){
             if(browserAtivo === false && stopWINNER === false){
@@ -139,7 +137,6 @@ bot.on(message("text"), async(ctx) =>{
         }
         
     }
-
     if(ctx.message.text === "/parar"){
         console.log(browserAtivo)
         if(browserAtivo === true){
@@ -152,13 +149,31 @@ bot.on(message("text"), async(ctx) =>{
         }
     }
     if(ctx.message.text === "/resumo"){
+        await atualizaVitorias()
+        await atualizaDerrotas()
         ctx.reply('🤑 Placar o dia ✅ '+win+' ❌ '+loss+' \n💰 xx Greens seguidos!!')
     }
-
+    if(ctx.message.text === "/novameta"){
+        await atualizaVitorias()
+        await atualizaDerrotas()
+        let total = (win) -(loss*26)
+        total = total*10 
+        let newSTOP = parseFloat(process.env.STOPWIN)  +  parseFloat(process.env.ADDJOGADA)
+        console.log(newSTOP)
+        if(total<=newSTOP){
+                addjogadas = true
+                ctx.reply('🤑 Placar o dia ✅ '+win+' ❌ '+loss+' \n🟩 NOVO STOP WIN DE: '+newSTOP)
+                logar(process.env.EMAIL,process.env.PASSWORD)
+        }else{
+                ctx.reply('META AINDA NÃO ATINGIDA '+win+' ❌ '+loss)
+        }
+        
+    }
     if(ctx.message.text === "/config"){
         let n1 = process.env.GALE_DUZIA -2
         ctx.reply('⚠️ '+n1+' Protecões\n💰  R$ 10 na entrada\n🟩 Stop WIN R$ '+process.env.STOPWIN+'\n🟥 Stop LOSS R$ '+process.env.STOPLOSS+'')
     }
+
     async function entradaConfirmadaBOT(text) {
         ultimaMSN = await ctx.telegram.sendMessage(chatID,text)
         //console.log(ultimaMSN)ctxtelegram.sendMessage(chatID,text)
@@ -205,18 +220,32 @@ bot.on(message("text"), async(ctx) =>{
     async function stopWIN(){
         let total = (win) -(loss*26)
         total = total*10
-        if(total>=process.env.STOPWIN){
-            text = '🟩 Stop WIN R$'+total+' alcançado! '
-            await ctx.telegram.sendMessage(chatID,text)
-            stopWINNER = true
-            await fecharBrowser()
+        if(addjogadas === true){
+            let newSTOP = parseFloat(process.env.STOPWIN)  +  parseFloat(process.env.ADDJOGADA)
+            if(total>=newSTOP){
+                text = '🟩 Stop WIN R$'+total+' alcançado! '
+                await ctx.telegram.sendMessage(chatID,text)
+                stopWINNER = true
+                await fecharBrowser()
+            }
+        }else{
+            if(total>=process.env.STOPWIN){
+                text = '🟩 Stop WIN R$'+total+' alcançado! '
+                await ctx.telegram.sendMessage(chatID,text)
+                stopWINNER = true
+                await fecharBrowser()
+            }
         }
+
     }
     async function logar(userlogin,userpass) {
         //await page.pause()
         try {
-            global.browser = await chromium.launch({headless: false});
-            global.page = await browser.newPage() 
+            global.browser = await chromium.launch({headless: false})
+            let context = await browser.newContext({
+                viewport: { width: 1000, height: 1000}
+              });
+            global.page = await context.newPage()
             browserAtivo = true
             await stopWIN()
             await page.goto(url, timeout = 0);
@@ -248,10 +277,9 @@ bot.on(message("text"), async(ctx) =>{
             
         } 
         //console.log("testando")
-    },6000)
+    },10000)
 
     setInterval(async () => {
-        if(roletaAndamento === false && lobbyCrash === true){
             if(roleta1[0] === num1BACKUP && roleta1[1] === num2BACKUP && roleta1[2] === num3BACKUP){
                 //console.log("ROLETA TRAVADA")
                 await incrementarLOG("ROLETA TRAVADA")
@@ -271,7 +299,6 @@ bot.on(message("text"), async(ctx) =>{
                 num3BACKUP = roleta1[2]
                 //console.log(roleta1[0],num1BACKUP,roleta1[1],num2BACKUP,roleta1[2],num3BACKUP,apostando)
             }
-        }
     },600000)
 
     await delay(6000) 
@@ -1333,7 +1360,7 @@ bot.on(message("text"), async(ctx) =>{
                     return Promise.resolve(false)
                 }
             break;
-            case 21:
+            case 20:
                 contcoluna1 = 0
                 contcoluna2 = 0
                 contcoluna3 = 0
@@ -1413,7 +1440,7 @@ bot.on(message("text"), async(ctx) =>{
                 }
 
             break;
-            case 20:
+            case 21:
                 contcoluna1 = 0
                 contcoluna2 = 0
                 contcoluna3 = 0
@@ -1433,18 +1460,18 @@ bot.on(message("text"), async(ctx) =>{
                         contcoluna3++
 
                     }
-                }
+                } 
+                //console.log("coluna 1"+contcoluna1)
+                //console.log("coluna 2"+contcoluna2) 
+                //console.log("coluna 3"+contcoluna3)
                 if(contcoluna1 === 5){
-                    console.log("coluna 1"+contcoluna1)
-                    return Promise.resolve(1)
-                }
-                if(contcoluna2 === 5){
-                    console.log("coluna 2"+contcoluna2)
-                    return Promise.resolve(2)
-                }
-                if(contcoluna3 === 5){
-                    console.log("coluna 3"+contcoluna3)
-                    return Promise.resolve(3)
+                    return Promise.resolve([contcoluna1,1])
+                }else if(contcoluna2 === 5){
+                    return Promise.resolve([contcoluna2,2])
+                }else if(contcoluna3 === 5){
+                    return Promise.resolve([contcoluna3,3])
+                }else{
+                    return Promise.resolve([0,3])
                 }
             break;
         }
@@ -1453,9 +1480,13 @@ bot.on(message("text"), async(ctx) =>{
 
             await delay(7000)
             for (let index = 1; index < 16; index++) {
-                if( index === 1 || index === 2 || index === 6 || index === 8 || index === 9 || index === 10 || index === 12 || index === 14){
+                
+                if(roletaAndamento === true){
+                    break;
+                }
+                if( index === 1 || index === 2 || index === 6 || index === 8 || index === 9 || index === 10 || index === 12 || index === 14 ){
                     let offline = await roletaOFF(index)
-                    if(offline == true){
+                    if(offline === "trues"){
                         if(process.env.REPETION_COLUMN === "true"){
                             //console.log("ROLETA "+index+" OFFILINE")
                             switch (index) {
@@ -1554,19 +1585,20 @@ bot.on(message("text"), async(ctx) =>{
                             roleta14[21] = true
                         }
                         try {
-                            var nameRoleta = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-info > div.lobby-table-name > span').textContent({timeout:500});
-                            var numero1 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(1) > span').textContent({timeout:500});
-                            var numero2 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(2) > span').textContent({timeout:500});
-                            var numero3 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(3) > span').textContent({timeout:500});
-                            var numero4 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(4) > span').textContent({timeout:500});
-                            var numero5 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(5) > span').textContent({timeout:500});
-                            var numero6 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(6) > span').textContent({timeout:500});
-                            var numero7 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(7) > span').textContent({timeout:500});
-                            var numero8 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(8) > span').textContent({timeout:500});
-                            var numero9 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(9) > span').textContent({timeout:500});
+                            var nameRoleta = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('#app > div > div.lobby-in > div.lobby-body > div > div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-info > div.lobby-table-name > span').textContent({timeout:700});
+                            var numero1 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(1) > span').textContent({timeout:700});
+                            var numero2 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(2) > span').textContent({timeout:700});
+                            var numero3 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(3) > span').textContent({timeout:700});
+                            var numero4 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(4) > span').textContent({timeout:700});
+                            var numero5 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(5) > span').textContent({timeout:700});
+                            var numero6 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(6) > span').textContent({timeout:700});
+                            var numero7 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(7) > span').textContent({timeout:700});
+                            var numero8 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(8) > span').textContent({timeout:700});
+                            var numero9 = await page.frameLocator('#casino-game-modal iframe').frameLocator('iframe[title="gameFrame"]').locator('div.lobby-content-holder > div > div > div > div > div.lobby-list.lobby-scroll-style-transparent.wrap > div:nth-child('+index+') > div > div.lobby-table-inner > div.lobby-roulette-stats > div:nth-child(9) > span').textContent({timeout:700});
 
+                            //console.log(nameRoleta)
                         } catch (error) {
-
+                            //console.log(error)
                             let permanecerAQUI = await permenecerROLETA()
                             if(permanecerAQUI == true){
                                 try {
@@ -1575,7 +1607,7 @@ bot.on(message("text"), async(ctx) =>{
                                     
                                 }
                             }else{
-                                break
+                                //break
                             }
                         }
                         numero1 = parseInt(numero1)
@@ -1753,7 +1785,7 @@ bot.on(message("text"), async(ctx) =>{
                                         const cont = await contagem(20,numero1,numero2,numero3,numero4,numero5,numero6,numero7,numero8,numero9)
                                         if(cont[0] == process.env.QTD_COLUMN){
                                             if(process.env.MODE == 1){
-                                                console.log("COLUNA MAIS SAIDA É "+cont)
+                                                console.log("ROLETA 1 - "+cont)
                                             }else if(process.env.MODE == 2){
                                                 console.log("COLUNA MENOS SAIDA É "+cont)
                                             }
@@ -1920,7 +1952,7 @@ bot.on(message("text"), async(ctx) =>{
                                         const cont = await contagem(20,numero1,numero2,numero3,numero4,numero5,numero6,numero7,numero8,numero9)
                                         if(cont[0] == process.env.QTD_COLUMN){
                                         if(process.env.MODE == 1){
-                                            console.log("COLUNA MAIS SAIDA É "+cont)
+                                            console.log("ROLETA 6 - "+cont)
                                         }else if(process.env.MODE == 2){
                                             console.log("COLUNA MENOS SAIDA É "+cont)
                                         }
@@ -2088,7 +2120,7 @@ bot.on(message("text"), async(ctx) =>{
                                     const cont = await contagem(20,numero1,numero2,numero3,numero4,numero5,numero6,numero7,numero8,numero9)
                                     if(cont[0] == process.env.QTD_COLUMN){
                                         if(process.env.MODE == 1){
-                                            console.log("COLUNA MAIS SAIDA É "+cont)
+                                            console.log("ROLETA 8 - "+cont)
                                         }else if(process.env.MODE == 2){
                                             console.log("COLUNA MENOS SAIDA É "+cont)
                                         }
@@ -2254,7 +2286,7 @@ bot.on(message("text"), async(ctx) =>{
                                     const cont = await contagem(20,numero1,numero2,numero3,numero4,numero5,numero6,numero7,numero8,numero9)
                                     if(cont[0] == process.env.QTD_COLUMN){
                                       if(process.env.MODE == 1){
-                                        console.log("COLUNA MAIS SAIDA É "+cont)
+                                        console.log("ROLETA 2 - "+cont)
                                     }else if(process.env.MODE == 2){
                                         console.log("COLUNA MENOS SAIDA É "+cont)
                                     }
@@ -2421,7 +2453,7 @@ bot.on(message("text"), async(ctx) =>{
                                         const cont = await contagem(20,numero1,numero2,numero3,numero4,numero5,numero6,numero7,numero8,numero9)
                                         if(cont[0] == process.env.QTD_COLUMN){
                                            if(process.env.MODE == 1){
-                                            console.log("COLUNA MAIS SAIDA É "+cont)
+                                            console.log("ROLETA 55 - "+cont)
                                         }else if(process.env.MODE == 2){
                                             console.log("COLUNA MENOS SAIDA É "+cont)
                                         }
@@ -2588,7 +2620,7 @@ bot.on(message("text"), async(ctx) =>{
                                         const cont = await contagem(20,numero1,numero2,numero3,numero4,numero5,numero6,numero7,numero8,numero9)
                                         if(cont[0] == process.env.QTD_COLUMN){
                                         if(process.env.MODE == 1){
-                                            console.log("COLUNA MAIS SAIDA É "+cont)
+                                            console.log("ROLETA 9 - "+cont)
                                         }else if(process.env.MODE == 2){
                                             console.log("COLUNA MENOS SAIDA É "+cont)
                                         }
@@ -2739,7 +2771,7 @@ bot.on(message("text"), async(ctx) =>{
                                         const cont = await contagem(20,numero1,numero2,numero3,numero4,numero5,numero6,numero7,numero8,numero9)
                                         if(cont[0] == process.env.QTD_COLUMN){
                                             if(process.env.MODE == 1){
-                                            console.log("COLUNA MAIS SAIDA É "+cont)
+                                            console.log("ROLETA 10 - "+cont)
                                         }else if(process.env.MODE == 2){
                                             console.log("COLUNA MENOS SAIDA É "+cont)
                                         }
@@ -2906,7 +2938,7 @@ bot.on(message("text"), async(ctx) =>{
                                         const cont = await contagem(20,numero1,numero2,numero3,numero4,numero5,numero6,numero7,numero8,numero9)
                                         if(cont[0] == process.env.QTD_COLUMN){
                                         if(process.env.MODE == 1){
-                                            console.log("COLUNA MAIS SAIDA É "+cont)
+                                            console.log("ROLETA 12 - "+cont)
                                         }else if(process.env.MODE == 2){
                                             console.log("COLUNA MENOS SAIDA É "+cont)
                                         }
@@ -3057,7 +3089,7 @@ bot.on(message("text"), async(ctx) =>{
                                         const cont = await contagem(20,numero1,numero2,numero3,numero4,numero5,numero6,numero7,numero8,numero9)
                                         if(cont[0] == process.env.QTD_COLUMN){
                                          if(process.env.MODE == 1){
-                                            console.log("COLUNA MAIS SAIDA É "+cont)
+                                            console.log("ROLETA 14 - "+cont)
                                         }else if(process.env.MODE == 2){
                                             console.log("COLUNA MENOS SAIDA É "+cont)
                                         }
@@ -10741,6 +10773,5 @@ bot.on(message("text"), async(ctx) =>{
         }
     }
 })
-
 bot.launch()
     
