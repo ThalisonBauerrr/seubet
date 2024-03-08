@@ -13,11 +13,7 @@ const url = "https://www.seubet.com/";
 const { Telegraf } = require('telegraf')
 const { message } = require('telegraf/filters')
 const  { Agent } = require ("node:https");
-const bot = new Telegraf(process.env.BOT_TOKEN, {
-	telegram: {
-		agent: new Agent({ keepAlive: false }),
-	},
-});
+const bot = new Telegraf(process.env.BOT_TOKEN, {telegram: {agent: new Agent({ keepAlive: false }),},});
 
     global.num1 = -1
     global.num2 = -1
@@ -38,8 +34,6 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
     global.column1 = 0;
     global.column2 = 0;
     global.column3 = 0;
-    
-    //global.gale = 7
 
     global.vitoria = 0 
     global.loss = 0
