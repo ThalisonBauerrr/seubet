@@ -151,11 +151,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
     if(ctx.message.text === "/resumo"){
         await atualizaVitorias()
         await atualizaDerrotas()
-        ctx.reply('🤑 Placar o dia ✅ '+win+' ❌ '+loss+' \n💰 xx Greens seguidos!!')
+        await delay(1000)
+        await ctx.reply('🤑 Placar o dia ✅ '+win+' ❌ '+loss+' \n💰 xx Greens seguidos!!')
     }
     if(ctx.message.text === "/novameta"){
         await atualizaVitorias()
         await atualizaDerrotas()
+        chatID = ctx.chat.id
         let total = (win) -(loss*26)
         total = total*10 
         let newSTOP = parseFloat(process.env.STOPWIN)  +  parseFloat(process.env.ADDJOGADA)
@@ -207,7 +209,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                 );
                 texto = toString()
             break;
-            case 4:
+            case 10:
                 await ctx.telegram.editMessageText(
                     ultimaMSN.chat.id,
                     ultimaMSN.message_id,
@@ -806,7 +808,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                             recuperacao = false
                             galeTeste = 1
                                 console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                 await incrementarLOG("APOSTA PERDIDA")
                         }
                 }else{
@@ -3158,7 +3160,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                 NEWnum3 = parseInt(NEWnum3)
                                 NEWnum4 = parseInt(NEWnum4)
                                 
-                                if(NEWnum1 != ultimonumero && apostando === false){
+                                if(NEWnum1 != ultimonumero && apostando == false){
                                         if(num === 1){
                                             if(process.env.CONFIRMA_NOTCOLUMN === "false"){
                                                 if(process.env.TYPE_JOGADA == 1){
@@ -3166,14 +3168,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                    apostando = true
+                                                    num1 = NEWnum1
+                                                    num2 = NEWnum2
+                                                    num3 = NEWnum3
+                                                    num4 = NEWnum4
                                                     await fazerAposta(num,roleta1[7])
                                                 }
-                                                
-                                                apostando = true
-                                                num1 = NEWnum1
-                                                num2 = NEWnum2
-                                                num3 = NEWnum3
-                                                num4 = NEWnum4
                                             }else{
                                                 if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
@@ -3181,14 +3182,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
                                                         await fazerAposta(num,roleta1[7])
                                                     }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
-                                                    //verificaRoleta()
                                                 }else{
                                                     if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 1')
@@ -3206,13 +3206,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                    apostando = true
+                                                    num1 = NEWnum1
+                                                    num2 = NEWnum2
+                                                    num3 = NEWnum3
+                                                    num4 = NEWnum4
                                                     await fazerAposta(num,roleta1[7])
-                                                }
-                                                apostando = true
-                                                num1 = NEWnum1
-                                                num2 = NEWnum2
-                                                num3 = NEWnum3
-                                                num4 = NEWnum4
+                                            }
                                             }else{
                                                 if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
@@ -3220,13 +3220,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
                                                         await fazerAposta(num,roleta1[7])
                                                     }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
                                                 }else{
                                                     if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 2')
@@ -3244,13 +3244,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                 entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                 await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
+                                                apostando = true
+                                                num1 = NEWnum1
+                                                num2 = NEWnum2
+                                                num3 = NEWnum3
+                                                num4 = NEWnum4
                                                 await fazerAposta(num,roleta1[7])
                                             }
-                                            apostando = true
-                                            num1 = NEWnum1
-                                            num2 = NEWnum2
-                                            num3 = NEWnum3
-                                            num4 = NEWnum4
                                         }else{
                                             if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
@@ -3258,13 +3258,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
-                                                    await fazerAposta(num,roleta1[7])
-                                                }
                                                     apostando = true
                                                     num1 = NEWnum1
                                                     num2 = NEWnum2
                                                     num3 = NEWnum3
                                                     num4 = NEWnum4
+                                                    await fazerAposta(num,roleta1[7])
+                                                }
                                             }else{
                                                 if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 3')
@@ -3317,7 +3317,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta1[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -3368,7 +3368,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta1[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -3422,7 +3422,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta1[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -3473,7 +3473,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta1[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -3527,7 +3527,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta1[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -3578,7 +3578,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta1[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -3665,13 +3665,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                    apostando = true
+                                                    num1 = NEWnum1
+                                                    num2 = NEWnum2
+                                                    num3 = NEWnum3
+                                                    num4 = NEWnum4
                                                     await fazerAposta(num,roleta6[7])
-                                                }
-                                                apostando = true
-                                                num1 = NEWnum1
-                                                num2 = NEWnum2
-                                                num3 = NEWnum3
-                                                num4 = NEWnum4
+                                            }
                                             }else{
                                                 if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
@@ -3679,14 +3679,14 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
+                                                        //verificaRoleta()
                                                         await fazerAposta(num,roleta6[7])
-                                                    }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
-                                                    //verificaRoleta()
+                                                }
                                                 }else{
                                                     if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 1')
@@ -3704,13 +3704,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                    apostando = true
+                                                    num1 = NEWnum1
+                                                    num2 = NEWnum2
+                                                    num3 = NEWnum3
+                                                    num4 = NEWnum4
                                                     await fazerAposta(num,roleta6[7])
                                                 }
-                                                apostando = true
-                                                num1 = NEWnum1
-                                                num2 = NEWnum2
-                                                num3 = NEWnum3
-                                                num4 = NEWnum4
                                             }else{
                                                 if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
@@ -3718,13 +3718,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
                                                         await fazerAposta(num,roleta6[7])
                                                     }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
                                                 }else{
                                                     if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 2')
@@ -3738,17 +3738,17 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                         }else if(num === 3){
                                         if(process.env.CONFIRMA_NOTCOLUMN === "false"){
                                             if(process.env.TYPE_JOGADA == 1){
-                                                    columnGALEHORA++
+                                                columnGALEHORA++
                                                 console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                 entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                 await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
+                                                apostando = true
+                                                num1 = NEWnum1
+                                                num2 = NEWnum2
+                                                num3 = NEWnum3
+                                                num4 = NEWnum4
                                                 await fazerAposta(num,roleta6[7])
                                             }
-                                            apostando = true
-                                            num1 = NEWnum1
-                                            num2 = NEWnum2
-                                            num3 = NEWnum3
-                                            num4 = NEWnum4
                                         }else{
                                             if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
@@ -3756,13 +3756,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
-                                                    await fazerAposta(num,roleta6[7])
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
+                                                        await fazerAposta(num,roleta6[7])
                                                 }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
                                             }else{
                                                 if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 3')
@@ -3816,7 +3816,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta6[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -3866,7 +3866,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta6[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -3919,7 +3919,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta6[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -3970,7 +3970,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta6[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -4024,7 +4024,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta6[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -4075,7 +4075,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta6[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -4160,32 +4160,32 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(num === 1){
                                                     if(process.env.CONFIRMA_NOTCOLUMN === "false"){
                                                         if(process.env.TYPE_JOGADA == 1){
-                                                    columnGALEHORA++
+                                                            columnGALEHORA++
                                                             console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                             entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                             await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
-                                                            await fazerAposta(num,roleta8[7])
-                                                        }
-                                                        apostando = true
-                                                        num1 = NEWnum1
-                                                        num2 = NEWnum2
-                                                        num3 = NEWnum3
-                                                        num4 = NEWnum4
-                                                    }else{
-                                                        if(coluna1.includes(NEWnum1) === true){
-                                                            if(process.env.TYPE_JOGADA == 1){
-                                                    columnGALEHORA++
-                                                                console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
-                                                                entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
-                                                                await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
-                                                                await fazerAposta(num,roleta8[7])
-                                                            }
                                                             apostando = true
                                                             num1 = NEWnum1
                                                             num2 = NEWnum2
                                                             num3 = NEWnum3
                                                             num4 = NEWnum4
-                                                            //verificaRoleta()
+                                                            await fazerAposta(num,roleta8[7])
+                                                        }
+                                                    }else{
+                                                        if(coluna1.includes(NEWnum1) === true){
+                                                            if(process.env.TYPE_JOGADA == 1){
+                                                                columnGALEHORA++
+                                                                console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
+                                                                entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
+                                                                await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                                apostando = true
+                                                                num1 = NEWnum1
+                                                                num2 = NEWnum2
+                                                                num3 = NEWnum3
+                                                                num4 = NEWnum4
+                                                                //verificaRoleta()
+                                                                await fazerAposta(num,roleta8[7])
+                                                            }
                                                         }else{
                                                             if(apostando === false){
                                                             console.log('ENTRADA CANCELADA NA COLUNA 1')
@@ -4199,31 +4199,31 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 }else if(num === 2){
                                                     if(process.env.CONFIRMA_NOTCOLUMN === "false"){
                                                         if(process.env.TYPE_JOGADA == 1){
-                                                    columnGALEHORA++
+                                                            columnGALEHORA++
                                                             console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                             entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                             await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
-                                                            await fazerAposta(num,roleta8[7])
-                                                        }
-                                                        apostando = true
-                                                        num1 = NEWnum1
-                                                        num2 = NEWnum2
-                                                        num3 = NEWnum3
-                                                        num4 = NEWnum4
-                                                    }else{
-                                                        if(coluna2.includes(NEWnum1) === true  && apostando === false){
-                                                            if(process.env.TYPE_JOGADA == 1){
-                                                    columnGALEHORA++
-                                                                console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
-                                                                entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
-                                                                await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
-                                                                await fazerAposta(num,roleta8[7])
-                                                            }
                                                             apostando = true
                                                             num1 = NEWnum1
                                                             num2 = NEWnum2
                                                             num3 = NEWnum3
                                                             num4 = NEWnum4
+                                                            await fazerAposta(num,roleta8[7])
+                                                        }
+                                                    }else{
+                                                        if(coluna2.includes(NEWnum1) === true  && apostando === false){
+                                                            if(process.env.TYPE_JOGADA == 1){
+                                                                columnGALEHORA++
+                                                                console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
+                                                                entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
+                                                                await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                                apostando = true
+                                                                num1 = NEWnum1
+                                                                num2 = NEWnum2
+                                                                num3 = NEWnum3
+                                                                num4 = NEWnum4
+                                                                await fazerAposta(num,roleta8[7])
+                                                            }
                                                         }else{
                                                             if(apostando === false){
                                                             console.log('ENTRADA CANCELADA NA COLUNA 2')
@@ -4237,31 +4237,31 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 }else if(num === 3){
                                                 if(process.env.CONFIRMA_NOTCOLUMN === "false"){
                                                     if(process.env.TYPE_JOGADA == 1){
-                                                    columnGALEHORA++
+                                                        columnGALEHORA++
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
                                                         await fazerAposta(num,roleta8[7])
                                                     }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
                                                 }else{
                                                     if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                         if(process.env.TYPE_JOGADA == 1){
-                                                    columnGALEHORA++
+                                                            columnGALEHORA++
                                                             console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                             entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                             await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
-                                                            await fazerAposta(num,roleta8[7])
-                                                        }
                                                             apostando = true
                                                             num1 = NEWnum1
                                                             num2 = NEWnum2
                                                             num3 = NEWnum3
                                                             num4 = NEWnum4
+                                                            await fazerAposta(num,roleta8[7])
+                                                        }
                                                     }else{
                                                         if(apostando === false){
                                                             console.log('ENTRADA CANCELADA NA COLUNA 3')
@@ -4279,7 +4279,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(NEWnum1 != 0){
                                                         if(num === 1){
                                                             if(process.env.TYPE_JOGADA == 1){
-                                                    columnGALEHORA++
+                                                                columnGALEHORA++
                                                                 if(coluna1.includes(NEWnum1) === false){
                                                                     roleta8[25]++
                                                                     await incrementarVitorias();
@@ -4315,13 +4315,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                                     if(roleta8[7] == process.env.GALE_DUZIA){
                                                                         if(process.env.RECUPERACAO === "false"){
                                                                         console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                         await incrementarLOG("APOSTA PERDIDA")
                                                                         }else if(galeTeste>3){
                                                                             recuperacao = false
                                                                             galeTeste = 1
                                                                                 console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                                 await incrementarLOG("APOSTA PERDIDA")
                                                                         }
                                                                         recuperacao = true
@@ -4371,14 +4371,14 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                                     if(roleta8[7] == process.env.GALE_NOT_COLUMN){
                                                                         if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                     }else if(galeTeste>3){
                                                                         recuperacao = false
                                                                         galeTeste = 1
                                                                             console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                             await incrementarLOG("APOSTA PERDIDA")
                                                                     }
                                                                         recuperacao = true
@@ -4430,11 +4430,11 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                                     }
                                                                     if(roleta8[7] == process.env.GALE_DUZIA){
                                                                         if(process.env.RECUPERACAO === "false"){
-                                                                    console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
-                                                                    await incrementarLOG("APOSTA PERDIDA")
-                                                                    await incrementarDerrotas()
-                                                                } 
+                                                                            console.log(red("APOSTA PERDIDA"));
+                                                                            editarSinal(nameR,10)
+                                                                            await incrementarLOG("APOSTA PERDIDA")
+                                                                            await incrementarDerrotas()
+                                                                        } 
                                                                         recuperacao = true
                                                                         roleta8[9] = false
                                                                         roleta8[8] = true
@@ -4482,7 +4482,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                                     if(roleta8[7] == process.env.GALE_NOT_COLUMN){
                                                                         if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -4535,7 +4535,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                                     if(roleta8[7] == process.env.GALE_DUZIA){
                                                                         if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -4585,7 +4585,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                                     if(roleta8[7] == process.env.GALE_NOT_COLUMN){
                                                                         if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -4671,13 +4671,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                    apostando = true
+                                                    num1 = NEWnum1
+                                                    num2 = NEWnum2
+                                                    num3 = NEWnum3
+                                                    num4 = NEWnum4
                                                     await fazerAposta(num,roleta2[7])
                                                 }
-                                                apostando = true
-                                                num1 = NEWnum1
-                                                num2 = NEWnum2
-                                                num3 = NEWnum3
-                                                num4 = NEWnum4
                                             }else{
                                                 if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
@@ -4685,14 +4685,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
                                                         await fazerAposta(num,roleta2[7])
                                                     }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
-                                                    //verificaRoleta()
                                                 }else{
                                                     if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 1')
@@ -4710,13 +4709,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                    apostando = true
+                                                    num1 = NEWnum1
+                                                    num2 = NEWnum2
+                                                    num3 = NEWnum3
+                                                    num4 = NEWnum4
                                                     await fazerAposta(num,roleta2[7])
                                                 }
-                                                apostando = true
-                                                num1 = NEWnum1
-                                                num2 = NEWnum2
-                                                num3 = NEWnum3
-                                                num4 = NEWnum4
                                             }else{
                                                 if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
@@ -4724,13 +4723,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
                                                         await fazerAposta(num,roleta2[7])
                                                     }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
                                                 }else{
                                                     if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 2')
@@ -4748,13 +4747,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                 entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                 await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
+                                                apostando = true
+                                                num1 = NEWnum1
+                                                num2 = NEWnum2
+                                                num3 = NEWnum3
+                                                num4 = NEWnum4
                                                 await fazerAposta(num,roleta2[7])
                                             }
-                                            apostando = true
-                                            num1 = NEWnum1
-                                            num2 = NEWnum2
-                                            num3 = NEWnum3
-                                            num4 = NEWnum4
                                         }else{
                                             if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
@@ -4762,13 +4761,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
-                                                    await fazerAposta(num,roleta2[7])
-                                                }
                                                     apostando = true
                                                     num1 = NEWnum1
                                                     num2 = NEWnum2
                                                     num3 = NEWnum3
                                                     num4 = NEWnum4
+                                                    await fazerAposta(num,roleta2[7])
+                                                }
                                             }else{
                                                 if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 3')
@@ -4822,7 +4821,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta2[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -4871,7 +4870,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta2[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -4924,7 +4923,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta2[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -4974,7 +4973,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta2[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -5027,7 +5026,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta2[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -5077,7 +5076,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta2[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -5315,7 +5314,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta55[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -5364,7 +5363,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta55[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -5417,7 +5416,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta55[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -5467,7 +5466,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta55[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -5520,7 +5519,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta55[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -5571,7 +5570,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta55[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -5660,13 +5659,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                    apostando = true
+                                                    num1 = NEWnum1
+                                                    num2 = NEWnum2
+                                                    num3 = NEWnum3
+                                                    num4 = NEWnum4
                                                     await fazerAposta(num,roleta9[7])
                                                 }
-                                                apostando = true
-                                                num1 = NEWnum1
-                                                num2 = NEWnum2
-                                                num3 = NEWnum3
-                                                num4 = NEWnum4
                                             }else{
                                                 if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
@@ -5674,14 +5673,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
                                                         await fazerAposta(num,roleta9[7])
                                                     }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
-                                                    //verificaRoleta()
                                                 }else{
                                                     if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 1')
@@ -5699,13 +5697,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                    apostando = true
+                                                    num1 = NEWnum1
+                                                    num2 = NEWnum2
+                                                    num3 = NEWnum3
+                                                    num4 = NEWnum4
                                                     await fazerAposta(num,roleta9[7])
                                                 }
-                                                apostando = true
-                                                num1 = NEWnum1
-                                                num2 = NEWnum2
-                                                num3 = NEWnum3
-                                                num4 = NEWnum4
                                             }else{
                                                 if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
@@ -5713,13 +5711,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
                                                         await fazerAposta(num,roleta9[7])
                                                     }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
                                                 }else{
                                                     if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 2')
@@ -5737,13 +5735,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                 entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                 await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
+                                                apostando = true
+                                                num1 = NEWnum1
+                                                num2 = NEWnum2
+                                                num3 = NEWnum3
+                                                num4 = NEWnum4
                                                 await fazerAposta(num,roleta9[7])
                                             }
-                                            apostando = true
-                                            num1 = NEWnum1
-                                            num2 = NEWnum2
-                                            num3 = NEWnum3
-                                            num4 = NEWnum4
                                         }else{
                                             if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
@@ -5751,13 +5749,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
-                                                    await fazerAposta(num,roleta9[7])
-                                                }
                                                     apostando = true
                                                     num1 = NEWnum1
                                                     num2 = NEWnum2
                                                     num3 = NEWnum3
                                                     num4 = NEWnum4
+                                                    await fazerAposta(num,roleta9[7])
+                                                }
                                             }else{
                                                 if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 3')
@@ -5811,7 +5809,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta9[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -5861,7 +5859,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta9[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -5915,7 +5913,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta9[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -5966,7 +5964,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta9[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -6020,7 +6018,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta9[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -6071,7 +6069,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta9[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -6159,13 +6157,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                    apostando = true
+                                                    num1 = NEWnum1
+                                                    num2 = NEWnum2
+                                                    num3 = NEWnum3
+                                                    num4 = NEWnum4
                                                     await fazerAposta(num,roleta10[7])
                                                 }
-                                                apostando = true
-                                                num1 = NEWnum1
-                                                num2 = NEWnum2
-                                                num3 = NEWnum3
-                                                num4 = NEWnum4
                                             }else{
                                                 if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
@@ -6173,14 +6171,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
                                                         await fazerAposta(num,roleta10[7])
-                                                    }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
-                                                    //verificaRoleta()
+                                                }
                                                 }else{
                                                     if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 1')
@@ -6198,13 +6195,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                    apostando = true
+                                                    num1 = NEWnum1
+                                                    num2 = NEWnum2
+                                                    num3 = NEWnum3
+                                                    num4 = NEWnum4
                                                     await fazerAposta(num,roleta10[7])
                                                 }
-                                                apostando = true
-                                                num1 = NEWnum1
-                                                num2 = NEWnum2
-                                                num3 = NEWnum3
-                                                num4 = NEWnum4
                                             }else{
                                                 if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
@@ -6212,13 +6209,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
                                                         await fazerAposta(num,roleta10[7])
                                                     }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
                                                 }else{
                                                     if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 2')
@@ -6236,13 +6233,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                 entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                 await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
+                                                apostando = true
+                                                num1 = NEWnum1
+                                                num2 = NEWnum2
+                                                num3 = NEWnum3
+                                                num4 = NEWnum4
                                                 await fazerAposta(num,roleta10[7])
                                             }
-                                            apostando = true
-                                            num1 = NEWnum1
-                                            num2 = NEWnum2
-                                            num3 = NEWnum3
-                                            num4 = NEWnum4
                                         }else{
                                             if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
@@ -6250,13 +6247,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
-                                                    await fazerAposta(num,roleta10[7])
-                                                }
                                                     apostando = true
                                                     num1 = NEWnum1
                                                     num2 = NEWnum2
                                                     num3 = NEWnum3
                                                     num4 = NEWnum4
+                                                    await fazerAposta(num,roleta10[7])
+                                                }
                                             }else{
                                                 if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 3')
@@ -6310,7 +6307,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta10[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -6361,7 +6358,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta10[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -6416,7 +6413,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta10[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -6468,7 +6465,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta10[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -6521,7 +6518,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta10[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -6573,7 +6570,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta10[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -6661,13 +6658,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                    apostando = true
+                                                    num1 = NEWnum1
+                                                    num2 = NEWnum2
+                                                    num3 = NEWnum3
+                                                    num4 = NEWnum4
                                                     await fazerAposta(num,roleta12[7])
                                                 }
-                                                apostando = true
-                                                num1 = NEWnum1
-                                                num2 = NEWnum2
-                                                num3 = NEWnum3
-                                                num4 = NEWnum4
                                             }else{
                                                 if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
@@ -6675,14 +6672,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
                                                         await fazerAposta(num,roleta12[7])
                                                     }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
-                                                    //verificaRoleta()
                                                 }else{
                                                     if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 1')
@@ -6700,13 +6696,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                    apostando = true
+                                                    num1 = NEWnum1
+                                                    num2 = NEWnum2
+                                                    num3 = NEWnum3
+                                                    num4 = NEWnum4
                                                     await fazerAposta(num,roleta12[7])
                                                 }
-                                                apostando = true
-                                                num1 = NEWnum1
-                                                num2 = NEWnum2
-                                                num3 = NEWnum3
-                                                num4 = NEWnum4
                                             }else{
                                                 if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
@@ -6714,13 +6710,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
                                                         await fazerAposta(num,roleta12[7])
                                                     }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
                                                 }else{
                                                     if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 2')
@@ -6738,13 +6734,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                 entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                 await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
+                                                apostando = true
+                                                num1 = NEWnum1
+                                                num2 = NEWnum2
+                                                num3 = NEWnum3
+                                                num4 = NEWnum4
                                                 await fazerAposta(num,roleta12[7])
                                             }
-                                            apostando = true
-                                            num1 = NEWnum1
-                                            num2 = NEWnum2
-                                            num3 = NEWnum3
-                                            num4 = NEWnum4
                                         }else{
                                             if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
@@ -6752,13 +6748,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
-                                                    await fazerAposta(num,roleta12[7])
-                                                }
                                                     apostando = true
                                                     num1 = NEWnum1
                                                     num2 = NEWnum2
                                                     num3 = NEWnum3
                                                     num4 = NEWnum4
+                                                    await fazerAposta(num,roleta12[7])
+                                                }
                                             }else{
                                                 if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 3')
@@ -6813,7 +6809,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta12[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -6863,7 +6859,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta12[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -6919,7 +6915,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta12[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -6971,7 +6967,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta12[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -7026,7 +7022,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta12[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -7078,7 +7074,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta12[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -7166,13 +7162,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                    apostando = true
+                                                    num1 = NEWnum1
+                                                    num2 = NEWnum2
+                                                    num3 = NEWnum3
+                                                    num4 = NEWnum4
                                                     await fazerAposta(num,roleta14[7])
                                                 }
-                                                apostando = true
-                                                num1 = NEWnum1
-                                                num2 = NEWnum2
-                                                num3 = NEWnum3
-                                                num4 = NEWnum4
                                             }else{
                                                 if(coluna1.includes(NEWnum1) === true){
                                                     if(process.env.TYPE_JOGADA == 1){
@@ -7180,14 +7176,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 2/3 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 2/3 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
                                                         await fazerAposta(num,roleta14[7])
                                                     }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
-                                                    //verificaRoleta()
                                                 }else{
                                                     if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 1')
@@ -7205,13 +7200,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                    apostando = true
+                                                    num1 = NEWnum1
+                                                    num2 = NEWnum2
+                                                    num3 = NEWnum3
+                                                    num4 = NEWnum4
                                                     await fazerAposta(num,roleta14[7])
                                                 }
-                                                apostando = true
-                                                num1 = NEWnum1
-                                                num2 = NEWnum2
-                                                num3 = NEWnum3
-                                                num4 = NEWnum4
                                             }else{
                                                 if(coluna2.includes(NEWnum1) === true  && apostando === false){
                                                     if(process.env.TYPE_JOGADA == 1){
@@ -7219,13 +7214,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                         console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" "))
                                                         entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/3 ["+NEWnum1+" ultimo número]\n")
                                                         await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/3 "+nameR+" ")
+                                                        apostando = true
+                                                        num1 = NEWnum1
+                                                        num2 = NEWnum2
+                                                        num3 = NEWnum3
+                                                        num4 = NEWnum4
                                                         await fazerAposta(num,roleta14[7])
                                                     }
-                                                    apostando = true
-                                                    num1 = NEWnum1
-                                                    num2 = NEWnum2
-                                                    num3 = NEWnum3
-                                                    num4 = NEWnum4
                                                 }else{
                                                     if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 2')
@@ -7243,13 +7238,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                 entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                 await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
+                                                apostando = true
+                                                num1 = NEWnum1
+                                                num2 = NEWnum2
+                                                num3 = NEWnum3
+                                                num4 = NEWnum4
                                                 await fazerAposta(num,roleta14[7])
                                             }
-                                            apostando = true
-                                            num1 = NEWnum1
-                                            num2 = NEWnum2
-                                            num3 = NEWnum3
-                                            num4 = NEWnum4
                                         }else{
                                             if(coluna3.includes(NEWnum1) === true  && apostando === false){
                                                 if(process.env.TYPE_JOGADA == 1){
@@ -7257,13 +7252,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     console.log(protecao("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" "))
                                                     entradaConfirmadaBOT("🎰Entrada confirmada🎰\n 💻 "+nameR+"\n 🔰 Coluna 1/2 ["+NEWnum1+" ultimo número]\n")
                                                     await incrementarLOG("ENTRADA CONFIRMADA COLUNA 1/2 "+nameR+" ")
-                                                    await fazerAposta(num,roleta14[7])
-                                                }
                                                     apostando = true
                                                     num1 = NEWnum1
                                                     num2 = NEWnum2
                                                     num3 = NEWnum3
                                                     num4 = NEWnum4
+                                                    await fazerAposta(num,roleta14[7])
+                                                }
                                             }else{
                                                 if(apostando === false){
                                                     console.log('ENTRADA CANCELADA NA COLUNA 3')
@@ -7318,7 +7313,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta14[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -7368,7 +7363,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta14[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -7421,7 +7416,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta14[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -7473,7 +7468,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta14[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -7526,7 +7521,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta14[7] == process.env.GALE_DUZIA){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -7576,7 +7571,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                             if(roleta14[7] == process.env.GALE_NOT_COLUMN){
                                                                 if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -7738,7 +7733,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta1[13] == process.env.SEQUENCIA_WAVE_DOWN){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -7852,7 +7847,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta6[13] == process.env.SEQUENCIA_WAVE_DOWN){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -7965,7 +7960,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta8[13] == process.env.SEQUENCIA_WAVE_DOWN){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -8077,7 +8072,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta2[13] == process.env.SEQUENCIA_WAVE_DOWN){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -8187,7 +8182,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta55[13] == process.env.SEQUENCIA_WAVE_DOWN){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -8299,7 +8294,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta9[13] == process.env.SEQUENCIA_WAVE_DOWN){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -8412,7 +8407,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     if(roleta10[13] == process.env.SEQUENCIA_WAVE_DOWN){
                                                         if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -8524,7 +8519,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta12[13] == process.env.SEQUENCIA_WAVE_DOWN){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -8638,7 +8633,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                     if(roleta14[13] == process.env.SEQUENCIA_WAVE_DOWN){
                                                         if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -8762,7 +8757,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta1[17] == process.env.SEQUENCIA_WAVE_UP){
                                                     if(process.env.RECUPERACAO === "false"){
                                                         console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                     } 
@@ -8879,7 +8874,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta6[17] == process.env.SEQUENCIA_WAVE_UP){
                                                     if(process.env.RECUPERACAO === "false"){
                                                         console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                         await incrementarLOG("APOSTA PERDIDA")
                                                     } 
                                                     roleta6[9] = false
@@ -8995,7 +8990,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta8[17] == process.env.SEQUENCIA_WAVE_UP){
                                                     if(process.env.RECUPERACAO === "false"){
                                                         console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                         await incrementarLOG("APOSTA PERDIDA")
                                                     } 
                                                     roleta8[9] = false
@@ -9108,7 +9103,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta2[17] == process.env.SEQUENCIA_WAVE_UP){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -9226,7 +9221,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta55[17] == process.env.SEQUENCIA_WAVE_UP){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -9343,7 +9338,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta9[17] == process.env.SEQUENCIA_WAVE_UP){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -9460,7 +9455,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta10[17] == process.env.SEQUENCIA_WAVE_UP){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -9577,7 +9572,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta12[17] == process.env.SEQUENCIA_WAVE_UP){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -9694,7 +9689,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta14[17] == process.env.SEQUENCIA_WAVE_UP){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -9796,7 +9791,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta1[20] == process.env.SEQUENCE_TERMINAL2){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -9907,7 +9902,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta1[23] == process.env.SEQUENCIA_VZ){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -10011,7 +10006,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta6[23] == process.env.SEQUENCIA_VZ){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -10115,7 +10110,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta8[23] == process.env.SEQUENCIA_VZ){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -10219,7 +10214,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta2[23] == process.env.SEQUENCIA_VZ){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -10323,7 +10318,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta55[23] == process.env.SEQUENCIA_VZ){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -10427,7 +10422,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta9[23] == process.env.SEQUENCIA_VZ){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -10531,7 +10526,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta10[23] == process.env.SEQUENCIA_VZ){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -10635,7 +10630,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta12[23] == process.env.SEQUENCIA_VZ){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
@@ -10738,7 +10733,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {
                                                 if(roleta14[23] == process.env.SEQUENCIA_VZ){
                                                     if(process.env.RECUPERACAO === "false"){
                                                                     console.log(red("APOSTA PERDIDA"));
-                                                                    editarSinal(nameR,4)
+                                                                    editarSinal(nameR,10)
                                                                     await incrementarLOG("APOSTA PERDIDA")
                                                                     await incrementarDerrotas()
                                                                 } 
