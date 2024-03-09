@@ -14,7 +14,7 @@ const { Telegraf } = require('telegraf')
 const { message } = require('telegraf/filters')
 const  { Agent } = require ("node:https");
 const bot = new Telegraf(process.env.BOT_TOKEN, {telegram: {agent: new Agent({ keepAlive: false }),},});
-
+    
     global.num1 = -1
     global.num2 = -1
     global.num3 = -1
@@ -99,12 +99,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {telegram: {agent: new Agent({ k
     global.stopWINNER = false
     global.addjogadas = false
     const users = ["bauerthalison"]
-    bot.on(message("text"), async(ctx) =>{
+    
+    bot.on(message("text"), async(ctx) =>{        
     await criarArquivo()
     const caminhoArquivo = arquivo
     await atualizaDerrotas()
     await atualizaVitorias()
-
+    
     if(ctx.message.text === "/iniciar"){
         if(users.includes(ctx.message.from.username)){
             if(browserAtivo === false && stopWINNER === false){
@@ -169,7 +170,6 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {telegram: {agent: new Agent({ k
         let n1 = process.env.GALE_DUZIA -2
         ctx.reply('⚠️ '+n1+' Protecões\n💰  R$ 10 na entrada\n🟩 Stop WIN R$ '+process.env.STOPWIN+'\n🟥 Stop LOSS R$ '+process.env.STOPLOSS+'')
     }
-
     async function entradaConfirmadaBOT(text) {
         ultimaMSN = await ctx.telegram.sendMessage(chatID,text)
         //console.log(ultimaMSN)ctxtelegram.sendMessage(chatID,text)
@@ -237,7 +237,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {telegram: {agent: new Agent({ k
     async function logar(userlogin,userpass) {
         //await page.pause()
         try {
-            global.browser = await chromium.launch({headless: false})
+            const browser = await chromium.launch({headless: false})
             let context = await browser.newContext({
                 viewport: { width: 1000, height: 1000}
               });
@@ -255,6 +255,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {telegram: {agent: new Agent({ k
             await page.goto(roleta)
             await delay(10000)
         } catch (error) {
+            console.log(error)
             
         }
     
@@ -10762,5 +10763,8 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {telegram: {agent: new Agent({ k
         }
     }
 })
-bot.launch()
-    
+bot.launch().then(() => {
+    console.log('Bot iniciado automaticamente.');
+  }).catch((err) => {
+    console.error('Erro ao iniciar o bot:', err);
+  });

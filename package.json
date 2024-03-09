@@ -2,15 +2,15 @@
   "name": "botplaypix",
   "version": "1.0.0",
   "description": "bot para Roletta",
-  "main": "index.js",
-  "bin": "index.js",
+  "main": "creedroomz.js",
+  "bin": "creedroomz.js",
   "pkg": {
     "targets": [
       "node7"
     ]
   },
   "scripts": {
-    "test": "npx nodemon main"
+    "test": "npx node creedroomz"
   },
   "author": "",
   "license": "ISC",
@@ -42,7 +42,8 @@
     "telegraf": "^4.16.3"
   },
   "devDependencies": {
-    "@playwright/test": "^1.38.1",
-    "nodemon": "^3.0.3"
+    "@playwright/test": "^1.42.1",
+    "@types/node": "^20.11.25",
+    "nodemon": "^3.1.0"
   }
 }
