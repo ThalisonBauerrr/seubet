@@ -98,6 +98,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {telegram: {agent: new Agent({ k
     global.ultimaMSN = 0
     global.stopWINNER = false
     global.addjogadas = false
+    global._teste = true;
     const users = ["bauerthalison"]
     
     bot.on(message("text"), async(ctx) =>{        
@@ -271,12 +272,12 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {telegram: {agent: new Agent({ k
         if(roletaAndamento === false && lobbyCrash === true && stopWINNER === false){
             await stopWIN()
             await analisandoLobby()
-            
         } 
         //console.log("testando")
     },10000)
 
     setInterval(async () => {
+        if(roletaAndamento === false){
             if(roleta1[0] === num1BACKUP && roleta1[1] === num2BACKUP && roleta1[2] === num3BACKUP){
                 //console.log("ROLETA TRAVADA")
                 await incrementarLOG("ROLETA TRAVADA")
@@ -296,6 +297,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN, {telegram: {agent: new Agent({ k
                 num3BACKUP = roleta1[2]
                 //console.log(roleta1[0],num1BACKUP,roleta1[1],num2BACKUP,roleta1[2],num3BACKUP,apostando)
             }
+        }
     },600000)
 
     await delay(6000) 
